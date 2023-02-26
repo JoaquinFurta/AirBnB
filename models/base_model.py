@@ -10,9 +10,12 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         if kwargs:
-            self.id = kwargs["id"]
-            self.created_at = kwargs["created_at"]
-            self.updated_at = kwargs["updated_at"]
+            if "id" in kwargs
+                self.id = kwargs["id"]
+            if "created_at" in kwargs
+                self.created_at = kwargs["created_at"]
+            if "updated_at" in kwargs
+                self.updated_at = kwargs["updated_at"]
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
