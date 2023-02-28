@@ -9,7 +9,7 @@ from models.user import User
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
-    __class_t = {"BaseModel", "User"}
+    __class_t = {"BaseModel": BaseModel(), "User": User()}
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -32,7 +32,7 @@ class HBNBCommand(cmd.Cmd):
         if arg not in self.__class_t:
             print("** class doesn't exist **")
         else:
-            inst = arg()
+            inst = self.__class_t[arg]
             storage.save()
             print(inst.id)
 
