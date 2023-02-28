@@ -4,10 +4,12 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
+    __class_t = {"BaseModel", "User"}
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -27,11 +29,10 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        if arg != "BaseModel":
+        if arg is not in self.__class_t:
             print("** class doesn't exist **")
-            return
         else:
-            inst = BaseModel()
+            inst = arg()
             storage.save()
             print(inst.id)
 
@@ -42,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
         if not args_l:
             print("** class name missing **")
             return
-        if args_l[0] != "BaseModel":
+        if args_l[0] is not in self.__class_t:
             print("** class doesn't exist **")
             return
         if len(args_l) == 1:
@@ -61,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
         if not args_l:
             print("** class name missing **")
             return
-        if args_l[0] != "BaseModel":
+        if args_l[0] is not in self.__class_t:
             print("** class doesn't exist **")
             return
         if len(args_l) == 1:
@@ -79,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
         instances based or not on the class name"""
         if not arg:
             print([value.__str__() for value in storage.all().values()])
-        elif arg == "BaseModel":
+        elif arg is in self.__class_t:
             print([storage.all()[key].__str__() for key in storage.all().keys()
                    if key.split('.')[0] == arg])
         else:
@@ -92,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
         if not args_l:
             print("** class name missing **")
             return
-        if args_l[0] != "BaseModel":
+        if args_l[0] is not in self.__class_t:
             print("** class doesn't exist **")
             return
         if len(args_l) == 1:
